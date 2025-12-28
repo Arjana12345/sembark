@@ -111,7 +111,7 @@
         <div class="main-wrapper">
             <header class="header">
                 <div class="search-bar">
-                    <strong><a href="/dashboard">Go to Dashboard</a>
+                    <strong>Dashboard
                     @if (session('rolId') == 1)
                         <p>
                             Super Admin User
@@ -163,12 +163,19 @@
                                 @else
                                 <tr><td>Data not found.</td></tr>
                                 @endif
+                                
                             </tbody>
+                            
                         </table>
-                    
+                        {{ $client_list->links() }} 
+                        <p><a href="{{route('client.index')}}">View All</a></p>
                     @endif
+                     
+                    
                 </div>
-            </main>
+              
         </div>
+        
+        
     </body>
 </html>

@@ -76,7 +76,7 @@ class AuthController extends Controller
         if(Session::get('rolId') == 1)
         {
             // Get client data
-            $client_list = Client::where('user_id','=',Session::get('loginId'))->get();
+            $client_list = Client::where('user_id','=',Session::get('loginId'))->simplePaginate(2);
         }
       
         
