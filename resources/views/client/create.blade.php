@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-     <head>
+    <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard</title>
@@ -73,41 +73,11 @@
                 margin-bottom: 2rem;
             }
             .card { background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-
-            .table-container {
-                background: white;
-                border-radius: 12px;
-                border: 1px solid #e2e8f0;
-                overflow: hidden; /* For rounded corners */
-            }
-
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                text-align: left;
-            }
-
-            thead {
-                background-color: #f8fafc;
-                border-bottom: 2px solid #e2e8f0;
-            }
-
-            th, td {
-                padding: 1rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            tbody tr {
-                border-bottom: 1px solid #f1f5f9;
-                transition: background 0.2s;
-            }
-
-            tbody tr:hover {
-                background-color: #f8fafc;
-            }
         </style>
     </head>
+
     <body>
+        <!-- Main Content Area -->
         <div class="main-wrapper">
             <header class="header">
                 <div class="search-bar">
@@ -132,41 +102,27 @@
                     <a href="/logout" class="logout-link">Logout</a>
                 </div>
             </header>
-          
-
-            <!-- Main Content Area -->
-            <main class="content">
+              
                 <!-- Main Dashboard Area -->
+            <main class="content">
                 <div class="content-area">
-                    @if (session('rolId') == 1)
-                        <h1>Clients <a href="/client/invite"><button type="button" class="primary">Invite</button></a></h1>
-                        <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Client Name</th>
-                                    <th>Users</th>
-                                    <th>URLs</th>
-                                    <th>Total URLs Hits</th>
-                                </tr> 
-                            </thead>
-                            <tbody>
-                                @if ($client_list->count())
-                                    @foreach($client_list as $this_client)
-                                    <tr>
-                                        <td>{{ $this_client->client_name }} <p style="color: #6D6968">{{ $this_client->client_email }}</p></td>
-                                        <td>Users</td>
-                                        <td>URLs</td>
-                                        <td>Total URLs Hits</td>
-                                    </tr> 
-                                    @endforeach
-                                @else
-                                <tr><td>Data not found.</td></tr>
-                                @endif
-                            </tbody>
-                        </table>
-                    
+                    @if (session('success'))
+                        <div style="color:green">
+                            {{ session('success') }}
+                        </div>
+                    @else
+                        <div style="color:red">
+                            {{ session('fail') }}
+                        </div>
                     @endif
+                    <p>Invite New Client</p>
+                        <form method="post" action="{{ route('client.store') }}">
+                            @csrf
+                            @method('post')
+                            <input type="text" name="client_name" placeholder="Client Name">
+                            <input type="text" name="client_email" placeholder="Client Email">
+                            <input type="submit" name="Submit">
+                        </form>
                 </div>
             </main>
         </div>
