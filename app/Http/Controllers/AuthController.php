@@ -81,7 +81,7 @@ class AuthController extends Controller
         $data = array();
         if(Session::has('loginId'))
         {
-            session()->forget(['loginId', 'rol_id', 'userName',]);
+            Session::pull('loginId');
             return redirect('login');
         }
     }

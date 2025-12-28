@@ -21,9 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
          $middleware->alias([
             'session_check' => SessionCheck::class, // Register your custom middleware here
         ]);
-         $middleware->alias([
-            'session_check' => AlreadyLoggedIn::class, // Register your custom middleware here
-        ]);
+      
         
     })
     ->withExceptions(function (Exceptions $exceptions): void {
