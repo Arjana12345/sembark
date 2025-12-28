@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -68,9 +69,16 @@ class AuthController extends Controller
         if(Session::has('loginId'))
         {
             $data = User::where('id','=',Session::get('loginId'))->first();
+
         }
-        echo 'dashboard';
-        return view('user.dashboard',compact('data'));
+
+        if(Session('rolId') == 1)
+        {
+            // Get client data
+            $client_list = Client::where('user_id','=',Session::get('loginId'));
+        }
+      
+        return view('user.dashboard',compact('data', 'client_list'));
     }
 
     ################
