@@ -72,4 +72,17 @@ class AuthController extends Controller
         echo 'dashboard';
         return view('user.dashboard',compact('data'));
     }
+
+    ################
+    ## Logout
+    ###############
+    public function logout()
+    {
+        $data = array();
+        if(Session::has('loginId'))
+        {
+            session()->forget(['loginId', 'rol_id', 'userName',]);
+            return redirect('login');
+        }
+    }
 }
