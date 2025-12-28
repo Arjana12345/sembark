@@ -10,7 +10,9 @@ class ClientController extends Controller
 {
     public function index()
     {
-
+        $client_list = Client::where('user_id','=',Session::get('loginId'))->simplePaginate(10);
+        return view('client.index', compact('client_list'));
+       
     }
 
     public function create()
