@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-     <head>
+    <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard</title>
@@ -52,7 +52,6 @@
                 overflow-y: auto; /* Makes content scrollable independently */
                 flex-grow: 1;
             }
-
             .table-container {
                 background: white;
                 border-radius: 12px;
@@ -85,26 +84,15 @@
                 background-color: #f8fafc;
             }
 
-
-            .button {
-                background-color: #04AA6D;
-                border: none;
-                color: white;
-                padding: 15px 32px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
-                }
         </style>
     </head>
+
     <body>
+        <!-- Main Content Area -->
         <div class="main-wrapper">
             <header class="header">
                 <div class="search-bar">
-                    <strong>Dashboard
+                    <strong><a href="/dashboard">Go to Dashboard</a>
                     @if (session('rolId') == 1)
                         <p>
                             Super Admin User
@@ -125,88 +113,45 @@
                     <a href="/logout" class="logout-link">Logout</a>
                 </div>
             </header>
-          
-
-            <!-- Main Content Area -->
-            <main class="content">
+              
                 <!-- Main Dashboard Area -->
+            <main class="content">
                 <div class="content-area">
-                    @if (session('rolId') == 1)
-                        <h1>Clients <a href="/client/invite"><button type="button" class="button">Invite</button></a></h1>
-                        <div class="table-container">
-                        <table>
-                            <thead>
+                   <p>All Generated URLs</p>
+                    <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Short URL</th>
+                                <th>Long URL</th>
+                                <th>Hits</th>
+                                <th>Client Name</th>
+                                <th>Created On</th>
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            @if ($short_url_list->count())
+                                @foreach($short_url_list as $this_url)
                                 <tr>
-                                    <th>Client Name</th>
-                                    <th>Users</th>
-                                    <th>URLs</th>
-                                    <th>Total URLs Hits</th>
+                                    <td>{{ $this_url->short_url }}</td>
+                                    <td>{{ $this_url->long_url }}</td>
+                                    <td>hits</td>
+                                    <td>client name</td>
+                                    <td>{{ $this_url->created_on }}</td>
                                 </tr> 
-                            </thead>
-                            <tbody>
-                                @if ($client_list->count())
-                                    @foreach($client_list as $this_client)
-                                    <tr>
-                                        <td>{{ $this_client->client_name }} <p style="color: #6D6968">{{ $this_client->client_email }}</p></td>
-                                        <td>Users</td>
-                                        <td>URLs</td>
-                                        <td>Total URLs Hits</td>
-                                    </tr> 
-                                    @endforeach
-                                @else
-                                <tr><td>Data not found.</td></tr>
-                                @endif
-                                
-                            </tbody>
+                                @endforeach
+                            @else
+                            <tr><td>Data not found.</td></tr>
+                            @endif
                             
-                        </table>
+                        </tbody>
                         
-                    @endif
-                    {{ $client_list->links() }} 
-                        <p><a href="{{route('client.index')}}">View All</a></p>
-                </div>
-                <br/><br/><br/>
-                <div class="content-area">
-                    @if (session('rolId') == 1)
-                        <h1>Short URLs 
-                        <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Short URL</th>
-                                    <th>Long URL</th>
-                                    <th>Hits</th>
-                                    <th>Client Name</th>
-                                    <th>Created On</th>
-                                </tr> 
-                            </thead>
-                            <tbody>
-                                @if ($short_url_list->count())
-                                    @foreach($short_url_list as $this_url)
-                                    <tr>
-                                        <td>{{ $this_url->short_url }}</td>
-                                        <td>{{ $this_url->long_url }}</td>
-                                        <td>hits</td>
-                                        <td>client name</td>
-                                        <td>{{ $this_url->created_on }}</td>
-                                    </tr> 
-                                    @endforeach
-                                @else
-                                <tr><td>Data not found.</td></tr>
-                                @endif
-                                
-                            </tbody>
-                            
-                        </table>
-                        
-                    @endif
+                    </table>
                     {{ $short_url_list->links() }} 
-                    <p><a href="{{route('surl.index')}}">View All</a></p>
+                      
                 </div>
-
             </main>
+               
         </div>
-        
-        
     </body>
 </html>
