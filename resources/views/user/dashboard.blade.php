@@ -134,33 +134,33 @@
                     @if (session('rolId') == 1)
                         <h1>Clients <a href="/client/invite"><button type="button" class="button">Invite</button></a></h1>
                         <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Client Name</th>
-                                    <th>Users</th>
-                                    <th>URLs</th>
-                                    <th>Total URLs Hits</th>
-                                </tr> 
-                            </thead>
-                            <tbody>
-                                @if ($client_list->count())
-                                    @foreach($client_list as $this_client)
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td>{{ $this_client->client_name }} <p style="color: #6D6968">{{ $this_client->client_email }}</p></td>
-                                        <td>Users</td>
-                                        <td>URLs</td>
-                                        <td>Total URLs Hits</td>
+                                        <th>Client Name</th>
+                                        <th>Users</th>
+                                        <th>URLs</th>
+                                        <th>Total URLs Hits</th>
                                     </tr> 
-                                    @endforeach
-                                @else
-                                <tr><td>Data not found.</td></tr>
-                                @endif
+                                </thead>
+                                <tbody>
+                                    @if ($client_list->count())
+                                        @foreach($client_list as $this_client)
+                                        <tr>
+                                            <td>{{ $this_client->client_name }} <p style="color: #6D6968">{{ $this_client->client_email }}</p></td>
+                                            <td>{{ $this_client->total_users }} </td>
+                                            <td>{{ $client_total_urls[$this_client->id] }}</td>
+                                            <td>{{ $client_total_hits[$this_client->id] }}</td>
+                                        </tr> 
+                                        @endforeach
+                                    @else
+                                    <tr><td>Data not found.</td></tr>
+                                    @endif
+                                    
+                                </tbody>
                                 
-                            </tbody>
-                            
-                        </table>
-                        
+                            </table>
+                        </div>
                     @endif
                     {{ $client_list->links() }} 
                         <p><a href="{{route('client.index')}}">View All</a></p>
@@ -170,35 +170,35 @@
                     @if (session('rolId') == 1)
                         <h1>Short URLs 
                         <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Short URL</th>
-                                    <th>Long URL</th>
-                                    <th>Hits</th>
-                                    <th>Client Name</th>
-                                    <th>Created On</th>
-                                </tr> 
-                            </thead>
-                            <tbody>
-                                @if ($short_url_list->count())
-                                    @foreach($short_url_list as $this_url)
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td>{{ $this_url->short_url }}</td>
-                                        <td>{{ $this_url->long_url }}</td>
-                                        <td>{{ $this_url->total_hits }}</td>
-                                        <td>{{ $this_url->name }}</td>
-                                        <td>{{ $this_url->created_at }}</td>
+                                        <th>Short URL</th>
+                                        <th>Long URL</th>
+                                        <th>Hits</th>
+                                        <th>Client Name</th>
+                                        <th>Created On</th>
                                     </tr> 
-                                    @endforeach
-                                @else
-                                <tr><td>Data not found.</td></tr>
-                                @endif
+                                </thead>
+                                <tbody>
+                                    @if ($short_url_list->count())
+                                        @foreach($short_url_list as $this_url)
+                                        <tr>
+                                            <td>{{ $this_url->short_url }}</td>
+                                            <td>{{ $this_url->long_url }}</td>
+                                            <td>{{ $this_url->total_hits }}</td>
+                                            <td>{{ $this_url->name }}</td>
+                                            <td>{{ $this_url->created_at }}</td>
+                                        </tr> 
+                                        @endforeach
+                                    @else
+                                    <tr><td>Data not found.</td></tr>
+                                    @endif
+                                    
+                                </tbody>
                                 
-                            </tbody>
-                            
-                        </table>
-                        
+                            </table>
+                        </div>
                     @endif
                     {{ $short_url_list->links() }} 
                     <p><a href="{{route('surl.index')}}">View All</a></p>

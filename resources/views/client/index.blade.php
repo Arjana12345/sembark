@@ -119,34 +119,34 @@
                 <div class="content-area">
                    <p>All Client</p>
                     <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Client Name</th>
-                                <th>Users</th>
-                                <th>URLs</th>
-                                <th>Total URLs Hits</th>
-                            </tr> 
-                        </thead>
-                        <tbody>
-                            @if ($client_list->count())
-                                @foreach($client_list as $this_client)
+                        <table>
+                            <thead>
                                 <tr>
-                                    <td>{{ $this_client->client_name }} <p style="color: #6D6968">{{ $this_client->client_email }}</p></td>
-                                    <td>Users</td>
-                                    <td>URLs</td>
-                                    <td>Total URLs Hits</td>
+                                    <th>Client Name</th>
+                                    <th>Users</th>
+                                    <th>URLs</th>
+                                    <th>Total URLs Hits</th>
                                 </tr> 
-                                @endforeach
-                            @else
-                            <tr><td>Data not found.</td></tr>
-                            @endif
+                            </thead>
+                            <tbody>
+                                @if ($client_list->count())
+                                    @foreach($client_list as $this_client)
+                                    <tr>
+                                        <td>{{ $this_client->client_name }} <p style="color: #6D6968">{{ $this_client->client_email }}</p></td>
+                                        <td>{{ $this_client->total_users }} </td>
+                                        <td>{{ $client_total_urls[$this_client->id] }}</td>
+                                        <td>{{ $client_total_hits[$this_client->id] }}</td>
+                                    </tr> 
+                                    @endforeach
+                                @else
+                                <tr><td>Data not found.</td></tr>
+                                @endif
+                                
+                            </tbody>
                             
-                        </tbody>
-                        
-                    </table>
-                    {{ $client_list->links() }} 
-                      
+                        </table>
+                        {{ $client_list->links() }} 
+                    </div>
                 </div>
             </main>
                
