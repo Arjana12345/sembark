@@ -41,7 +41,7 @@ Route::middleware(['session_check'])->group(function(){
 
 
 #########################
-## client
+## short URL
 ##########################
 #########################
 ## Route group

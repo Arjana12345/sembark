@@ -135,8 +135,8 @@
                                 <tr>
                                     <td>{{ $this_url->short_url }}</td>
                                     <td>{{ $this_url->long_url }}</td>
-                                    <td>hits</td>
-                                    <td>client name</td>
+                                    <td>{{ $this_url->total_hits }}</td>
+                                    <td>{{ $this_url->name }}</td>
                                     <td>{{ $this_url->created_at }}</td>
                                 </tr> 
                                 @endforeach

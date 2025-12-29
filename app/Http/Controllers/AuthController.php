@@ -8,6 +8,8 @@ use App\Models\ShortUrl;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+
 
 class AuthController extends Controller
 {
@@ -64,7 +66,7 @@ class AuthController extends Controller
     ################
     ## Dashboard
     ###############
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $data = array();
         if(Session::has('loginId'))
@@ -84,7 +86,13 @@ class AuthController extends Controller
         if(Session::get('rolId') == 1)
         {
             // Get short_url_list data
-            $short_url_list = ShortUrl::where('user_id','=',Session::get('loginId'))->simplePaginate(2);
+            #$short_url_list = ShortUrl::where('user_id','=',Session::get('loginId'))->simplePaginate(2);
+            
+            $sql = 'SELECT short_url.id,short_url.short_url,short_url.long_url,short_url.created_at,short_url.user_id,users.name,SUM(COALESCE(url_hits.hit_count, 0)) as total_hits FROM short_url left join users on users.id=short_url.user_id left join url_hits on url_hits.short_url_id = short_url.id group by short_url.id';
+            $short_url_list = DB::table(DB::raw("($sql) as sub"))
+                    ->simplePaginate(2);
+
+
         }
         return view('user.dashboard',compact('data', 'client_list', 'short_url_list'));
     }
