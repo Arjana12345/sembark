@@ -9,10 +9,12 @@ class ShortUrl extends Model
     public $table = "short_url";
     protected $fillable = [
                             'id',
-                            'sort_url',
+                            'short_url',
                             'long_url',
                             'user_id',
                             'created_at',
                             'updated_at',
                         ]; 
+
+    public $timestamps = true;
 }

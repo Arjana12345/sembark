@@ -137,7 +137,7 @@
                                     <td>{{ $this_url->long_url }}</td>
                                     <td>hits</td>
                                     <td>client name</td>
-                                    <td>{{ $this_url->created_on }}</td>
+                                    <td>{{ $this_url->created_at }}</td>
                                 </tr> 
                                 @endforeach
                             @else
