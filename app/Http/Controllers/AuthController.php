@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Client;
+use App\Models\ShortUrl;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -79,8 +80,13 @@ class AuthController extends Controller
             $client_list = Client::where('user_id','=',Session::get('loginId'))->simplePaginate(2);
         }
       
-        
-        return view('user.dashboard',compact('data', 'client_list'));
+        $short_url_list = array();
+        if(Session::get('rolId') == 1)
+        {
+            // Get short_url_list data
+            $short_url_list = ShortUrl::where('user_id','=',Session::get('loginId'))->simplePaginate(2);
+        }
+        return view('user.dashboard',compact('data', 'client_list', 'short_url_list'));
     }
 
     ################

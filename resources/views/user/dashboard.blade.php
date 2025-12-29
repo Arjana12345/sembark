@@ -160,12 +160,50 @@
                             </tbody>
                             
                         </table>
-                        {{ $client_list->links() }} 
-                        <p><a href="{{route('client.index')}}">View All</a></p>
+                        
                     @endif
-                     
-                    
+                    {{ $client_list->links() }} 
+                        <p><a href="{{route('client.index')}}">View All</a></p>
                 </div>
+                <br/><br/><br/>
+                <div class="content-area">
+                    @if (session('rolId') == 1)
+                        <h1>Short URLs 
+                        <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Short URL</th>
+                                    <th>Long URL</th>
+                                    <th>Hits/th>
+                                    <th>Client Name</th>
+                                    <th>Created On</th>
+                                </tr> 
+                            </thead>
+                            <tbody>
+                                @if ($short_url_list->count())
+                                    @foreach($short_url_list as $this_url)
+                                    <tr>
+                                        <td>{{ $this_url->short_url }}</td>
+                                        <td>{{ $this_url->long_url }}</td>
+                                        <td>hits</td>
+                                        <td>client name</td>
+                                        <td>{{ $this_url->created_on }}</td>
+                                    </tr> 
+                                    @endforeach
+                                @else
+                                <tr><td>Data not found.</td></tr>
+                                @endif
+                                
+                            </tbody>
+                            
+                        </table>
+                        
+                    @endif
+                    {{ $short_url_list->links() }} 
+                    <p><a href="{{route('surl.index')}}">View All</a></p>
+                </div>
+
             </main>
         </div>
         
