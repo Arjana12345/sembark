@@ -164,8 +164,6 @@
                         {{ $client_list->links() }} 
                         <p><a href="{{route('client.index')}}">View All</a></p>
                     @endif
-                    
-                        
                 </div>
                 <br/><br/><br/>
                 <div class="content-area">
@@ -197,6 +195,7 @@
                                     @endforeach
                                 @else
                                 <tr><td>Data not found.</td></tr>
+                               
                                 @endif
                                 
                             </tbody>
@@ -207,6 +206,54 @@
                     <p><a href="{{route('surl.index')}}">View All</a></p>
                 </div>
 
+                <br/><br/><br/>
+                <div class="content-area">
+                    @if (session('rolId') == 2)
+                        <h1>Clients <a href="/client/invite"><button type="button" class="button">Invite</button></a></h1>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Total Generated URLs</th>
+                                        <th>Total URLs Hits</th>
+                                    </tr> 
+                                </thead>
+                                <tbody>
+                                    @if ($team_member_list->count())
+                                        @foreach($team_member_list as $this_member)
+                                        <tr>
+                                            <td>{{ $this_member->name }}</td>
+                                            <td>{{ $this_member->email }} </td>
+                                            
+                                                @if ($this_member->rol_id == 2)
+                                                    <td>Admin</td>
+                                                @elseif ($this_member->rol_id == 3)
+                                                    <td>Member</td>
+                                                @endif
+                                            </td>
+                                            <td>{{ $this_member->total_urls }}</td>
+                                            @if (array_key_exists($this_member->user_id ,$team_member_url_hits))
+                                                <td>{{ $team_member_url_hits[$this_member->user_id] }}</td>
+                                            @else
+                                                <td>0</td>
+                                            @endif
+                                        </tr> 
+                                        @endforeach
+                                    @else
+                                    <tr><td>Data not found.</td></tr>
+                                    @endif
+                                    
+                                </tbody>
+                                
+                            </table>
+                        </div>
+                        {{ $team_member_list->links() }} 
+                        <p><a href="{{route('client.index')}}">View All</a></p>
+                    @endif
+                </div>
             </main>
         </div>
         

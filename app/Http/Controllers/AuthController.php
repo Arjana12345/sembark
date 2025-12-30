@@ -33,14 +33,12 @@ class AuthController extends Controller
         ]);
       
         $user = User::where('email','=',$request->email)->first();
-        print_r($user);
-       
+        
         if($user)
         {
 
             if(HASH::check($request->password, $user->password))
             {
-                echo 'password match';
                 $request->session()->put('loginId', $user->id);
                 $request->session()->put('userName', $user->name);
                 $request->session()->put('rolId', $user->rol_id);
@@ -49,13 +47,11 @@ class AuthController extends Controller
             }
             else 
             {
-                echo 'password not match';
-                return back()->with('fail','Password not match!');
+               return back()->with('fail','Password not match!');
             }
         } 
         else
         {
-            echo 'email not found';
             return back()->with('fail','This email is not register.');
         } 
               
@@ -90,7 +86,6 @@ class AuthController extends Controller
             ## SQL: client list with tutal users in a client company
             ##################################################
             $sql1 = 'SELECT client.id, client.client_name, client.client_email, count(users.id) as total_users from client join users on users.client_id = client.id group by client.id';
-            $sql1_result = DB::select($sql1);
             $client_list = DB::table(DB::raw("($sql1) as sub"))
                             ->simplePaginate(2);
 
@@ -158,8 +153,53 @@ class AuthController extends Controller
                                ->simplePaginate(2);
         }
         
+        ########################
+        ## Team member for admin
+        ########################
+        $team_member_list = array();
+        $team_member_url_hits = array();
+        if(Session::get('rolId') == 2)
+        {
+            $user_id = Session::get('loginId');
+
+            ###########################
+            ## All team member basic details
+            ############################
+            /*
+            $team_member_list = DB::table('users')
+                                ->where('client_id', '=', Session::get('clientId'))
+                                ->whereNotIn('id', [$user_id, '1']) ## exclude to itself and super admin
+                                ->simplePaginate(2);
+                                */
+
+            #########################################################
+            ## All team member basi details and total  short urls
+            #########################################################
+            $user_id   = Session::get('loginId');
+            $client_id = Session::get('clientId');
+
+            $sql = "SELECT count(short_url.id) as total_urls, short_url.user_id, users.client_id,users.name,users.email,users.rol_id from short_url join users on users.id = short_url.user_id where users.client_id = ? and users.id != ? and users.rol_id != '1' group by short_url.user_id ";
+            $team_member_list = DB::table(DB::raw("($sql) as sub"))
+                                ->setBindings([$client_id, $user_id]) ## exclude to itself and super admin
+                                ->simplePaginate(2);
+
+            #########################################################
+            ## All team member total url hits
+            #########################################################
+            $sql = "select SUM(COALESCE(url_hits.hit_count, 0)) as total_hits,url_hits.user_id from url_hits JOIN short_url on short_url.id = url_hits.short_url_id join users on users.id = url_hits.user_id where users.client_id = ? and users.id != ? and users.rol_id != '1' GROUP by url_hits.user_id";
+            $url_hits = DB::table(DB::raw("($sql) as sub"))
+                                    ->setBindings([$client_id, $user_id]) ## exclude to itself and super admin
+                                    ->simplePaginate(2);
+
+            foreach($url_hits  as $this_hit_count)
+            {
+               $team_member_url_hits[$this_hit_count->user_id] = $this_hit_count->total_hits;
+            }
+
+            
+        }
         
-        return view('user.dashboard',compact('data', 'client_list', 'client_total_urls', 'client_total_hits', 'short_url_list'));
+        return view('user.dashboard',compact('data', 'client_list', 'client_total_urls', 'client_total_hits', 'short_url_list', 'team_member_list', 'team_member_url_hits'));
     }
 
     ################
