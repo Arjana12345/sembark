@@ -134,8 +134,16 @@
                                     <tr>
                                         <td>{{ $this_client->client_name }} <p style="color: #6D6968">{{ $this_client->client_email }}</p></td>
                                         <td>{{ $this_client->total_users }} </td>
-                                        <td>{{ $client_total_urls[$this_client->id] }}</td>
-                                        <td>{{ $client_total_hits[$this_client->id] }}</td>
+                                        @if (array_key_exists($this_client->id ,$client_total_urls))
+                                            <td>{{ $client_total_urls[$this_client->id] }}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+                                        @if (array_key_exists($this_client->id ,$client_total_hits))
+                                            <td>{{ $client_total_hits[$this_client->id] }}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
                                     </tr> 
                                     @endforeach
                                 @else

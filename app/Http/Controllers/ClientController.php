@@ -18,8 +18,7 @@ class ClientController extends Controller
         if(Session::get('rolId') == 1)
         {
             // Get client data
-            #$client_list = Client::where('user_id','=',Session::get('loginId'))->simplePaginate(2);
-            $sql1 = 'SELECT client.id, client.client_name, client.client_email, count(users.id) as total_users from client join users on users.client_id = client.id group by client.id';
+            $sql1 = 'SELECT client.id, client.client_name, client.client_email, count(users.id) as total_users from client join users on users.client_id = client.id  where users.rol_id != 1 group by client.id';
             $sql1_result = DB::select($sql1);
             $client_list = DB::table(DB::raw("($sql1) as sub"))
                             ->simplePaginate(2);

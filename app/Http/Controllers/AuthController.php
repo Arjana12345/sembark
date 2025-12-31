@@ -80,12 +80,13 @@ class AuthController extends Controller
         $client_list = array();
         $client_total_urls = array();
         $client_total_hits = array();
+
         if(Session::get('rolId') == 1)
         {
             ##################################################
             ## SQL: client list with tutal users in a client company
             ##################################################
-            $sql1 = 'SELECT client.id, client.client_name, client.client_email, count(users.id) as total_users from client join users on users.client_id = client.id group by client.id';
+            $sql1 = 'SELECT client.id, client.client_name, client.client_email, count(users.id) as total_users from client join users on users.client_id = client.id where users.rol_id != 1 group by client.id';
             $client_list = DB::table(DB::raw("($sql1) as sub"))
                             ->simplePaginate(2);
 
