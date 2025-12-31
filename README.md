@@ -45,3 +45,22 @@ Note: 1) here invite s basically acreate action on DB
       2) To create team member i am using default password = 12345678
       3) I manually added entry in url_hits table
 
+Steps:
+======
+1) git clone git@github.com:Arjana12345/sembark.git
+2) Run - composer install
+3) set permission to directory sudo chmod -R 777
+4) Run - php artisan serve 
+5) Run copy .env.example .env
+6) update db creadentials in .env file
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=sembark
+    DB_USERNAME=DB_user_name
+    DB_PASSWORD=DB_password
+
+7) php artisan key:generate
+8) php artisan migrate
+    OR
+    upload db.sql which is shared
