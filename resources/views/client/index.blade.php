@@ -150,13 +150,13 @@
                                 <tr><td>Data not found.</td></tr>
                                 
                                 @endif
-                                @if (count($client_list))
-                                {{ $client_list->links() }} 
-                                @endif
+                             
                             </tbody>
                             
                         </table>
-                        
+                           @if (count($client_list))
+                                {{ $client_list->links() }} 
+                                @endif
                     </div>
                 </div>
             </main>

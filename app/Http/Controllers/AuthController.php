@@ -86,7 +86,7 @@ class AuthController extends Controller
             ##################################################
             ## SQL: client list with tutal users in a client company
             ##################################################
-            $sql1 = 'SELECT client.id, client.client_name, client.client_email, count(users.id) as total_users from client join users on users.client_id = client.id where users.rol_id != 1 group by client.id';
+            $sql1 = 'SELECT client.id, client.client_name, client.client_email, count(users.id) as total_users from client left join users on client.id = users.client_id group by client.id';
             $client_list = DB::table(DB::raw("($sql1) as sub"))
                             ->simplePaginate(2);
 
