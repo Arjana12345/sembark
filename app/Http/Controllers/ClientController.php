@@ -11,8 +11,7 @@ class ClientController extends Controller
 {
     public function index()
     {
-        #$client_list = Client::where('user_id','=',Session::get('loginId'))->simplePaginate(10);
-
+       
         $client_list = array();
         $client_total_urls = array();
         $client_total_hits = array();
@@ -42,6 +41,10 @@ class ClientController extends Controller
                $client_total_hits[$this_hit_count->client_id] = $this_hit_count->total_hits;
             }
 
+        }
+        else 
+        {
+            return redirect('/dashboard');
         }
         return view('client.index', compact('client_list','client_total_urls','client_total_hits'));
 

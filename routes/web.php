@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ShortUrlController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -52,6 +53,25 @@ Route::middleware(['session_check'])->group(function(){
         Route::get('/', [ShortUrlController::class,'index'])->name('surl.index');
         Route::get('/create', [ShortUrlController::class,'create'])->name('surl.create');
         Route::post('/', [ShortUrlController::class,'store'])->name('surl.store');
+       
+    });
+
+});
+
+
+
+#########################
+## client
+##########################
+#########################
+## Route group
+##########################
+Route::middleware(['session_check'])->group(function(){
+
+        Route::group(['prefix' => '/user'],function(){
+        Route::get('/', [UserController::class,'index'])->name('user.index');
+        Route::get('/invite', [UserController::class,'create'])->name('user.create');
+        Route::post('/', [UserController::class,'store'])->name('user.store');
        
     });
 

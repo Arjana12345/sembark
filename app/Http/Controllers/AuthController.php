@@ -158,31 +158,37 @@ class AuthController extends Controller
         ########################
         $team_member_list = array();
         $team_member_url_hits = array();
+        $team_member_total_urls = array();
         if(Session::get('rolId') == 2)
         {
             $user_id = Session::get('loginId');
 
+            
             ###########################
             ## All team member basic details
             ############################
-            /*
+            
             $team_member_list = DB::table('users')
                                 ->where('client_id', '=', Session::get('clientId'))
-                                ->whereNotIn('id', [$user_id, '1']) ## exclude to itself and super admin
+                                ->whereNotIn('id', [$user_id]) ## exclude to itself and super admin
+                                ->whereNotIn('rol_id', [1]) ## exclude to itself and super admin
                                 ->simplePaginate(2);
-                                */
-
+            
             #########################################################
             ## All team member basi details and total  short urls
             #########################################################
             $user_id   = Session::get('loginId');
             $client_id = Session::get('clientId');
 
-            $sql = "SELECT count(short_url.id) as total_urls, short_url.user_id, users.client_id,users.name,users.email,users.rol_id from short_url join users on users.id = short_url.user_id where users.client_id = ? and users.id != ? and users.rol_id != '1' group by short_url.user_id ";
-            $team_member_list = DB::table(DB::raw("($sql) as sub"))
+            $sql = "SELECT count(short_url.id) as total_urls, short_url.user_id, users.client_id from short_url join users on users.id = short_url.user_id where users.client_id = ? and users.id != ? and users.rol_id != '1' group by short_url.user_id ";
+            $short_urls = DB::table(DB::raw("($sql) as sub"))
                                 ->setBindings([$client_id, $user_id]) ## exclude to itself and super admin
                                 ->simplePaginate(2);
 
+            foreach($short_urls  as $this_short_url)
+            {
+               $team_member_total_urls[$this_short_url->user_id] = $this_short_url->total_urls;
+            }
             #########################################################
             ## All team member total url hits
             #########################################################
@@ -199,7 +205,7 @@ class AuthController extends Controller
             
         }
         
-        return view('user.dashboard',compact('data', 'client_list', 'client_total_urls', 'client_total_hits', 'short_url_list', 'team_member_list', 'team_member_url_hits'));
+        return view('user.dashboard',compact('data', 'client_list', 'client_total_urls', 'client_total_hits', 'short_url_list', 'team_member_list', 'team_member_total_urls', 'team_member_url_hits'));
     }
 
     ################

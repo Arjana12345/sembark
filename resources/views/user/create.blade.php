@@ -15,7 +15,7 @@
                 overflow: hidden; /* Prevents body scroll */
             }
 
-            /* Main Wrapper */
+           /* Main Wrapper */
             .main-wrapper {
                 flex-grow: 1;
                 display: flex;
@@ -52,38 +52,18 @@
                 overflow-y: auto; /* Makes content scrollable independently */
                 flex-grow: 1;
             }
-            .table-container {
-                background: white;
-                border-radius: 12px;
-                border: 1px solid #e2e8f0;
-                overflow: hidden; /* For rounded corners */
-            }
-
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                text-align: left;
-            }
-
-            thead {
-                background-color: #f8fafc;
-                border-bottom: 2px solid #e2e8f0;
-            }
-
-            th, td {
-                padding: 1rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            tbody tr {
-                border-bottom: 1px solid #f1f5f9;
-                transition: background 0.2s;
-            }
-
-            tbody tr:hover {
-                background-color: #f8fafc;
-            }
-
+            .button {
+                background-color: #04AA6D;
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                }
         </style>
     </head>
 
@@ -117,42 +97,30 @@
                 <!-- Main Dashboard Area -->
             <main class="content">
                 <div class="content-area">
-                   <p>All Client</p>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Client Name</th>
-                                    <th>Users</th>
-                                    <th>URLs</th>
-                                    <th>Total URLs Hits</th>
-                                </tr> 
-                            </thead>
-                            <tbody>
-                                @if (count($client_list))
-                                    @foreach($client_list as $this_client)
-                                    <tr>
-                                        <td>{{ $this_client->client_name }} <p style="color: #6D6968">{{ $this_client->client_email }}</p></td>
-                                        <td>{{ $this_client->total_users }} </td>
-                                        <td>{{ $client_total_urls[$this_client->id] }}</td>
-                                        <td>{{ $client_total_hits[$this_client->id] }}</td>
-                                    </tr> 
-                                    @endforeach
-                                @else
-                                <tr><td>Data not found.</td></tr>
-                                
-                                @endif
-                                @if (count($client_list))
-                                {{ $client_list->links() }} 
-                                @endif
-                            </tbody>
-                            
-                        </table>
-                        
-                    </div>
+                    @if (session('success'))
+                        <div style="color:green">
+                            {{ session('success') }}
+                        </div>
+                    @else
+                        <div style="color:red">
+                            {{ session('fail') }}
+                        </div>
+                    @endif
+                    <p>Invite New Member/Admin</p>
+                        <form method="post" action="{{ route('user.store') }}">
+                            @csrf
+                            @method('post')
+                            <input type="text" name="name" placeholder="User Name">
+                            <input type="text" name="email" placeholder="User Email">
+                            <label for="Role">Select Role:</label>
+                            <select name="rol_id">
+                                <option value="2">Admin</option>
+                                <option value="3">Member</option>
+                            </select>
+                            <input type="submit" name="Submit" class="button">
+                        </form>
                 </div>
             </main>
-               
         </div>
     </body>
 </html>

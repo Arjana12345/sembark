@@ -104,7 +104,7 @@
         <div class="main-wrapper">
             <header class="header">
                 <div class="search-bar">
-                    <strong>Dashboard
+                    <strong><a href="/dashboard">Go to Dashboard</a>
                     @if (session('rolId') == 1)
                         <p>
                             Super Admin User
@@ -130,94 +130,9 @@
             <!-- Main Content Area -->
             <main class="content">
                 <!-- Main Dashboard Area -->
-                <div class="content-area">
-                    @if (session('rolId') == 1)
-                        <h1>Clients <a href="/client/invite"><button type="button" class="button">Invite</button></a></h1>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Client Name</th>
-                                        <th>Users</th>
-                                        <th>URLs</th>
-                                        <th>Total URLs Hits</th>
-                                    </tr> 
-                                </thead>
-                                <tbody>
-                                    @if ($client_list->count())
-                                        @foreach($client_list as $this_client)
-                                        <tr>
-                                            <td>{{ $this_client->client_name }} <p style="color: #6D6968">{{ $this_client->client_email }}</p></td>
-                                            <td>{{ $this_client->total_users }} </td>
-                                            @if (array_key_exists($this_client->id ,$client_total_urls))
-                                                <td>{{ $client_total_urls[$this_client->id] }}</td>
-                                            @else
-                                                <td>0</td>
-                                            @endif
-                                            @if (array_key_exists($this_client->id ,$client_total_hits))
-                                                <td>{{ $client_total_hits[$this_client->id] }}</td>
-                                            @else
-                                                <td>0</td>
-                                            @endif
-                                        </tr> 
-                                        @endforeach
-                                    @else
-                                    <tr><td>Data not found.</td></tr>
-                                    @endif
-                                    
-                                </tbody>
-                                
-                            </table>
-                        </div>
-                        {{ $client_list->links() }} 
-                        <p><a href="{{route('client.index')}}">View All</a></p>
-                    @endif
-                </div>
-                <br/><br/><br/>
-                <div class="content-area">
-                    <h1>Short URLs </h1> 
-                    @if (session('rolId') != 1)
-                        <a href="{{route('surl.create')}}"><button type="button" class="button">Generate short URLs</button></a></h1>
-                    @endif
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Short URL</th>
-                                    <th>Long URL</th>
-                                    <th>Hits</th>
-                                    <th>Client Name</th>
-                                    <th>Created On</th>
-                                </tr> 
-                            </thead>
-                            <tbody>
-                                @if ($short_url_list->count())
-                                    @foreach($short_url_list as $this_url)
-                                    <tr>
-                                        <td>{{ $this_url->short_url }}</td>
-                                        <td>{{ $this_url->long_url }}</td>
-                                        <td>{{ $this_url->total_hits }}</td>
-                                        <td>{{ $this_url->name }}</td>
-                                        <td>{{ $this_url->created_at }}</td>
-                                    </tr> 
-                                    @endforeach
-                                @else
-                                <tr><td>Data not found.</td></tr>
-                               
-                                @endif
-                                
-                            </tbody>
-                            
-                        </table>
-                    </div>
-                    {{ $short_url_list->links() }} 
-                    <p><a href="{{route('surl.index')}}">View All</a></p>
-                </div>
-
-                <br/><br/><br/>
-                <div class="content-area">
+               <div class="content-area">
                     @if (session('rolId') == 2)
-                        <h1>Team Member <a href="/user/invite"><button type="button" class="button">Invite</button></a></h1>
+                        <h1>Team Member </h1>
                         <div class="table-container">
                             <table>
                                 <thead>
@@ -263,7 +178,7 @@
                             </table>
                         </div>
                         {{ $team_member_list->links() }} 
-                        <p><a href="{{route('user.index')}}">View All</a></p>
+                        
                     @endif
                 </div>
             </main>
